@@ -1,2 +1,2 @@
-# Platform-Software
-Temperature indicator with STM32F4 and MPU-6050
+# Temperature indicator
+with STM32F4 and MPU-6050
