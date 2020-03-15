@@ -27,7 +27,7 @@
 
 #include "drv.h"
 
-extern bool bPushButton;
+extern volatile bool bPushButton;
 
 extern uint32 InppSwtEvl_Get_bSwt(void);
 extern void InppSwtEvl_Set_bSwt(bool val);
