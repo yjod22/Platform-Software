@@ -56,11 +56,8 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-extern uint32 taskFlags;  // semafore register, can also be any other data type that fits your flags (1ul --> uint32_t or larger!)
-extern uint32 cntLedDelay;
-extern uint32 cntEXTI;
-extern bool bPushButton;
-extern uint32 cntSysTick;
+extern volatile uint32 cntLedDelay;
+extern volatile bool bPushButton;
 /* Exported macro ------------------------------------------------------------*/
 #define HANDLE_MY_INTERRUPT_STUFF    (1ul<<0) // Define a flag for interrupt things.
 
