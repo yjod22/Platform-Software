@@ -57,11 +57,8 @@
 #include  <os_cpu.h>
 #include  <app_cfg.h>
 
-uint32 	temp[1];
-uint32 	taskFlags;  // semafore register, can also be any other data type that fits your flags (1ul --> uint32_t or larger!)
-uint32 	cntLedDelay;
-uint32 	cntEXTI;
-bool 	bPushButton;
+volatile uint32	cntLedDelay;
+volatile bool	bPushButton;
 
 #define HANDLE_MY_INTERRUPT_STUFF    (1ul<<0) // Define a flag for interrupt things.
 #define  TASK_STK_SIZE                 512
@@ -69,8 +66,8 @@ bool 	bPushButton;
 static	OS_STK AppTaskStartStk[APP_CFG_TASK_START_STK_SIZE];
 static  OS_STK	Task1_Stk[TASK_STK_SIZE];
 
-static  void  AppTaskStart(void *p_arg);
-void   Task1(void *data);
+static  void	AppTaskStart(void *p_arg);
+static	void	Task1(void *data);
 
 int main()
 {
@@ -213,7 +210,7 @@ static  void  AppTaskStart (void *p_arg)
 	}
 }
 
-void Task1(void *data)
+static	void Task1(void *data)
 {
 	while(1)
 	{
