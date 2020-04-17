@@ -31,7 +31,7 @@
 
 #include "mcal.h"
 
-extern uint16_t Driver_Pwm_Get_uInputCapture(void);
-extern void Driver_Pwm_Set_uPulse(uint32_t uPulse);
+extern uint16 Driver_Pwm_Get_uInputCapture(void);
+extern void Driver_Pwm_Set_uPulse(uint32 uPulse);
 
 #endif /* PWM_H_ */

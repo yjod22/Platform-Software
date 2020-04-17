@@ -26,6 +26,6 @@
 void EHAL_ProcMain(void)
 {
 	EHAL_ADC_CalcInput();
-	//EHAL_Distance_CalcInput();
+	EHAL_Distance_CalcInput();
 	EHAL_Position_CalcInput();
 }

@@ -1,23 +1,37 @@
-/**
-  ******************************************************************************
-  * @file    main.c
-  * @author  Ac6
-  * @version V1.0
-  * @date    01-December-2013
-  * @brief   Default main function.
-  ******************************************************************************
+/*
+*******************************************************************************
+*                                                                             *
+*			     Copyright (c)				      *
+*                         All rights reserved.                                *
+*                                                                             *
+*******************************************************************************
+*
+*  Filename:     main.c
+*
+*******************************************************************************                                                                            *
+*  Description:
+*
+*  (For a detailed description look at the object description in the UML model)
+*
+*******************************************************************************
+* History
+*******************************************************************************
+* Version:     16.0
+* Author/Date: JSO / 2018-09-30
+* Change:      Redefine the architecture
+*******************************************************************************
+* Version:     15.0
+* Author/Date: JSO / 2018-09-30
+* Change:      Declare I2c_Position in the I2cPosition.h file
+*******************************************************************************
+* Version:     14.0
+* Author/Date: JSO / 2018-09-29
+* Change:      Initial version
+*******************************************************************************
 */
 
 #include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-
-#include "system_macro.h"
-#include "std_type.h"
 #include "stm32f4xx.h"
-#include "FreeRTOS.h"
-#include "task.h"
-
 #include "led.h"
 #include "llio.h"
 #include "timer.h"
@@ -35,230 +49,178 @@
 #include "I2cPosition.h"
 #include "exti.h"
 
-#if USE_SEMIHOSTING_ENABLED
-extern void initialise_monitor_handles();
-#endif
-void vInitTaskHandler(void *params);
-void v5msTaskHandler(void *params);
-void v50msTaskHandler(void *params);
-#if configUSE_TICK_HOOK
-void vApplicationTickHook();
-#endif
-#if PUSH_BUTTON_PE0_USED
-void Delay_Ms(uint32_t parDelayMs);
-void Delay_Ms_FromISR(uint32_t parDelayMs);
-#endif
+#include  <ucos_ii.h>
+#include  <cpu.h>
+#include  <lib_def.h>
+#include  <lib_mem.h>
+#include  <lib_str.h>
+#include  <os_cpu.h>
+#include  <app_cfg.h>
 
-TaskHandle_t x5msTaskHandle = NULL;
-TaskHandle_t x50msTaskHandle = NULL;
-TaskHandle_t xInitTaskHandle = NULL;
+volatile uint32	cntLedDelay;
+volatile bool	bPushButton;
 
-uint8_t buttonStatus = NOT_PRESSED;
-char charUserMsg[250];
-volatile uint32_t TimmingDelay;
-#if PUSH_BUTTON_PE0_USED
-volatile bool 	bPushButton;
-#endif
-#if configUSER_DEFINED_SYSTICK_HANDLER
-uint32_t ulCntInitTask;
-uint32_t ulCnt5msTask;
-uint32_t ulCnt50msTask;
-#else
-TickType_t x5msTaskLastWakeTime;
-TickType_t x50msTaskLastWakeTime;
-#endif
+#define HANDLE_MY_INTERRUPT_STUFF    (1ul<<0) // Define a flag for interrupt things.
+#define  TASK_STK_SIZE                 512
 
-int main(void)
+static	OS_STK AppTaskStartStk[APP_CFG_TASK_START_STK_SIZE];
+static  OS_STK	Task1_Stk[TASK_STK_SIZE];
+
+static  void	AppTaskStart(void *p_arg);
+static	void	Task1(void *data);
+
+int main()
 {
-#if USE_SEMIHOSTING_ENABLED
-	initialise_monitor_handles();
-	printf("Hello world example code by ARM semihosting \n");
-#endif
+	CPU_INT08U  os_err;
 
-	// Enable cycle counting (CYCCNT) in DWT_CTRL to get time stamp information of events
-	DWT->CTRL |= (1<<0);
+	/* Init uC/OS-II. */
+   	OSInit();                                               
 
-	// HSI ON, HSE OFF, PLL OFF, system clock = 16Mhz, cpu_clock = 16Mhz
-	RCC_DeInit();
-	SystemCoreClockUpdate();
+	/* Create the start task. */
+	os_err = OSTaskCreate((void (*)(void *)) AppTaskStart,  
+                             (void          * ) 0,
+                             (OS_STK        * )&AppTaskStartStk[APP_CFG_TASK_START_STK_SIZE - 1],
+                             //(INT8U           ) APP_TASK_START_PRIO
+                             (INT8U           ) 7
+                             );
 
-	// Start recording
-	SEGGER_SYSVIEW_Conf();
-	SEGGER_SYSVIEW_Start();
+	OSTaskNameSet(7, (CPU_INT08U *)"Start Task", &os_err);
 
-#if configUSER_DEFINED_SYSTICK_HANDLER
-	// Initialize task relevant variables
-	ulCntInitTask = 1;
-	ulCnt5msTask = configCOUNTER_5MS_TASK;
-	ulCnt50msTask = configCOUNTER_50MS_TASK;
-#endif
-
-	xTaskCreate(vInitTaskHandler,
-				"Init_Task",
-				500,
-				NULL,
-				3,
-				&xInitTaskHandle);
-
-	xTaskCreate(v5msTaskHandler,
-				"5ms_Task",
-				500,
-				NULL,
-				2,
-				&x5msTaskHandle);
-
-	xTaskCreate(v50msTaskHandler,
-				"50ms_Task",
-				500,
-				NULL,
-				1,
-				&x50msTaskHandle);
-
-	vTaskStartScheduler();
-
-	for(;;);
+	OSStart();
+	return (0);
 }
 
-void vInitTaskHandler(void *params)
+
+/*
+*********************************************************************************************************
+*                                          STARTUP TASK
+*
+* Description : This is an example of a startup task.  As mentioned in the book's text, you MUST
+*               initialize the ticker only once multitasking has started.
+*
+* Arguments   : p_arg   is the argument passed to 'AppTaskStart()' by 'OSTaskCreate()'.
+*
+* Returns     : none
+*
+* Notes       : 1) The first line of code is used to prevent a compiler warning because 'p_arg' is not
+*                  used.  The compiler should not generate any code for this statement.
+*********************************************************************************************************
+*/
+
+static  void  AppTaskStart (void *p_arg)
 {
+	CPU_INT08U  os_err;
+	CPU_INT32U  r0;
+	CPU_INT32U  r1;
+	CPU_INT32U  r2;
+	CPU_INT32U  r3;
+	CPU_INT32U  r4;
+	CPU_INT32U  r5;
+	CPU_INT32U  r6;
+	CPU_INT32U  r7;
+	CPU_INT32U  r8;
+	CPU_INT32U  r9;
+	CPU_INT32U  r10;
+	CPU_INT32U  r11;
+	CPU_INT32U  r12;
+	CPU_INT32U  cpu_clk_freq;
+	CPU_INT32U  cnts;
+	(void) p_arg;
+	
+	/* Initialize local variables. */
+	r0  =  0u;
+	r1  =  1u;
+	r2  =  2u;
+	r3  =  3u;
+	r4  =  4u;
+	r5  =  5u;
+	r6  =  6u;
+	r7  =  7u;
+	r8  =  8u;
+	r9  =  9u;
+	r10 = 10u;
+	r11 = 11u;
+	r12 = 12u;
+
+	/* Initialize the uC/CPU services */
+	CPU_Init();                                                 
+	
+	RCC_ClocksTypeDef RCC_Clocks;
+	RCC_GetClocksFreq(&RCC_Clocks);
+	
+	/* Determine SysTick reference freq. */
+	cpu_clk_freq = RCC_Clocks.HCLK_Frequency ;		
+	
+	/* Determine nbr SysTick increments. */
+	#if (OS_VERSION >= 30000u)
+		cnts  = cpu_clk_freq / (CPU_INT32U)OSCfg_TickRate_Hz;       
+	#else
+		cnts  = cpu_clk_freq / (CPU_INT32U)OS_TICKS_PER_SEC;
+	#endif
+	
+	/* Initialize the SysTick. */
+	OS_CPU_SysTickInit(cnts);            							
+
+	 /* Determine CPU capacity */
+	#if (OS_TASK_STAT_EN > 0)
+		OSStatInit();                                              
+	#endif
+
 	/* initialization */
+	LED_Init();
+	LLIO_Init(115200);
+	TIMER2_Init();
+	TIMER3_Init();
+	TIMER5_Init();
 	GPIO_Init_All();
-#if DC_MOTOR_USED
-	TIMER2_Init(); // DC motor drive
-#endif
-#if ULTRASONIC_WAVE_SENSOR_USED
-	TIMER3_Init(); // Ultrasonic wave sensor trigger signal
-	TIMER5_Init(); // Ultrasonic wave sensor echo signal
-#endif
-#if USART_USED
-	LLIO_Init(115200); // USART setting
-#endif
-#if MPU6050_USED
-	I2C3_Init();
-	I2cPosition_Init();
-#endif
-#if PUSH_BUTTON_PE0_USED
 	EXTI_Init_All();
-#endif
 	DMA2_Init();
 	ADC1_Init();
 	EHAL_ADC_Init();
+	I2C3_Init();
+	I2cPosition_Init();
+	TIMER6_Init(); //2ms task
+	TIMER7_Init(); //20ms task
 
-	LED_Init();
-	LED_G_OFF();
-	LED_R_OFF();
+    	LED_G_OFF();
+    	LED_R_OFF();
 
-	// Suspend the task
-	vTaskSuspend(xInitTaskHandle);
+    	os_err = OSTaskCreate(Task1,"20ms",&Task1_Stk[TASK_STK_SIZE - 1],5);
+    	OSTaskNameSet(5, (CPU_INT08U *)"20ms", &os_err);
+
+	/* Task body, always written as an infinite loop.       */
+	while (DEF_TRUE) {                                          
+		/* Check task context. */
+		if ((r0  !=  0u) ||                                     
+		    (r1  !=  1u) ||
+		    (r2  !=  2u) ||
+		    (r3  !=  3u) ||
+		    (r4  !=  4u) ||
+		    (r5  !=  5u) ||
+		    (r6  !=  6u) ||
+		    (r7  !=  7u) ||
+		    (r8  !=  8u) ||
+		    (r9  !=  9u) ||
+		    (r10 != 10u) ||
+		    (r11 != 11u) ||
+		    (r12 != 12u)) {
+		}
+		/* Wait 10ms */
+		OSTimeDlyHMSM(0, 0, 0, 10);                         
+	}
 }
 
-void v5msTaskHandler(void *params)
+static	void Task1(void *data)
 {
-#if configUSER_DEFINED_SYSTICK_HANDLER
 	while(1)
 	{
-		/* Load ADC results from buffer every 5ms */
-		EHAL_ADC_5ms();
-
-		// Suspend the task
-		vTaskSuspend(x5msTaskHandle);
-	}
-
-#else
-	const TickType_t xFrequency = 5;
-	x5msTaskLastWakeTime = xTaskGetTickCount();
-	x50msTaskLastWakeTime = x5msTaskLastWakeTime;
-	while(1)
-	{
-		vTaskDelayUntil(&x5msTaskLastWakeTime, xFrequency);
-
-		/* Load ADC results from buffer every 5ms */
-		EHAL_ADC_5ms();
-	}
-#endif
-}
-
-void v50msTaskHandler(void *params)
-{
-#if configUSER_DEFINED_SYSTICK_HANDLER
-	while(1)
-	{
-		// Execute main functionalities
+		/* Main function control period: 20ms*/
 		EHAL_ProcMain();
 		DRV_Inpp_ProcMain();
 		DRV_Outp_ProcMain();
 
-		// Suspend the task
-		vTaskSuspend(x50msTaskHandle);
-	}
-
-#else
-	const TickType_t xFrequency = 50;
-	while(1)
-	{
-		vTaskDelayUntil(&x50msTaskLastWakeTime, xFrequency);
-
-		// Execute main functionalities
-		EHAL_ProcMain();
-		DRV_Inpp_ProcMain();
-		DRV_Outp_ProcMain();
-	}
-#endif
-}
-
-#if configUSE_IDLE_HOOK
-void vApplicationIdleHook()
-{
-	// Send the cpu to normal sleep
-	__WFI();
-}
-#endif
-
-#if configUSE_TICK_HOOK
-void vApplicationTickHook()
-{
-	if(TimmingDelay != 0)
-	{
-		TimmingDelay--;
+		OSTaskSuspend(5);
 	}
 }
-#endif
 
-#if PUSH_BUTTON_PE0_USED
-void EXTI0_IRQHandler(void)
-{
-  	traceISR_ENTER();
-	// 1. Clear the interrupt pending bit of the EXTI line
-	EXTI_ClearITPendingBit(EXTI_Line0);
-
-	// 2. Toggle the status variable
-	Delay_Ms(2);
-	bPushButton ^= 1;
-	traceISR_EXIT();
-}
-
-void Delay_Ms(uint32_t parDelayMs)
-{
-	// Convert Mili Seconds to Tick
-	uint32_t delayTick = (parDelayMs / 1000) * configTICK_RATE_HZ;
-
-	// Stamp tick value from FreeRTOS
-	uint32_t stampTick = xTaskGetTickCount();
-
-	// Loop until it reaches the target time
-	while(xTaskGetTickCount() - stampTick < delayTick);
-}
-
-void Delay_Ms_FromISR(uint32_t parDelayMs)
-{
-	// Convert Mili Seconds to Tick
-	uint32_t delayTick = (parDelayMs / 1000) * configTICK_RATE_HZ;
-
-	// Stamp tick value from FreeRTOS
-	uint32_t stampTick = xTaskGetTickCountFromISR();
-
-	// Loop until it reaches the target time
-	while(xTaskGetTickCountFromISR() - stampTick < delayTick);
-}
-#endif
 

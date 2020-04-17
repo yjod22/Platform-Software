@@ -31,14 +31,14 @@
 #include "stm32f4xx.h"
 #include "DriverPwm.h"
 
-uint16_t Driver_Pwm_Get_uInputCapture(void)
+uint16 Driver_Pwm_Get_uInputCapture(void)
 {
- uint16_t Pwm_uInputCapture;
+ uint16 Pwm_uInputCapture;
  Pwm_uInputCapture = (uint16)(TIM_GetCapture2(TIM5));
  return Pwm_uInputCapture;
 }
 
-void Driver_Pwm_Set_uPulse(uint32_t uPulse)
+void Driver_Pwm_Set_uPulse(uint32 uPulse)
 {
 	TIM_SetCompare1(TIM2, uPulse);
 	return;

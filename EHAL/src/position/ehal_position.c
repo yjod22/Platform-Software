@@ -31,7 +31,7 @@
 
 void EHAL_Position_CalcInput()
 {
-	//I2cPosition_Read_Accelerometer();
+	I2cPosition_Read_Accelerometer();
 	I2cPosition_Read_Temperature();
-	//I2cPosition_Read_Gyroscope();
+	I2cPosition_Read_Gyroscope();
 }

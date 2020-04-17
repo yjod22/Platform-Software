@@ -44,7 +44,7 @@ void EHAL_ADC_Init(void)
 	EHAL_ADC_FIR_Clear(&EHAL_uBattDscr);
 }
 
-void EHAL_ADC_5ms(void)
+void EHAL_ADC_2ms(void)
 {
 	EHAL_ADC_FIR_Input(&EHAL_uBattDscr, Adc_Resultbuffer[0]);
 }
