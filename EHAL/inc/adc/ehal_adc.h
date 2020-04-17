@@ -56,7 +56,7 @@ static const EHAL_Batt_Dscr_t EHAL_uBattDscr=
 
 uint32 EHAL_Get_uBatt(void);
 void EHAL_ADC_Init(void);
-void EHAL_ADC_2ms(void);
+void EHAL_ADC_5ms(void);
 void EHAL_ADC_CalcInput(void);
 
 void EHAL_ADC_FIR_Clear(const EHAL_Batt_Dscr_t *p);

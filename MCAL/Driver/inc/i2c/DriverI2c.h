@@ -38,7 +38,7 @@
 #define DRIVER_I2C_ACK_ENABLE         1
 #define DRIVER_I2C_ACK_DISABLE        0
 
-#define DRIVER_I2C_TIMEOUT		   	  100
+#define DRIVER_I2C_TIMEOUT		   	  2
 
 extern __IO uint32_t TimmingDelay;
 
