@@ -1,6 +1,12 @@
 /**
   ******************************************************************************
   * @file    main.c
+  * @author  M.Sc Junseok Oh
+  * @version 2016b01
+  * @date    17-April-2020
+  * @brief   Implement main functionalities based on FreeRTOS.
+  ******************************************************************************
+  * @file    main.c
   * @author  Ac6
   * @version V1.0
   * @date    01-December-2013
