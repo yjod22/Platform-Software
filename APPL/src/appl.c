@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     std_type.h
+*  Filename:     appl.c
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,9 +16,9 @@
 *******************************************************************************
 * History
 *******************************************************************************
-* Version:     16.0
-* Author/Date: JSO / 2018-09-30
-* Change:      Add the typedef of unsigned int
+* Version:     2016b02
+* Author/Date: Junseok Oh / 2021-10-12
+* Change:      Apply AUTOSAR Architecture
 *******************************************************************************
 * Version:     14.0
 * Author/Date: JSO / 2018-09-29
@@ -26,39 +26,11 @@
 *******************************************************************************
 */
 
+#include "appl.h"
 
-#ifndef STD_TYPE_H_
-#define STD_TYPE_H_
+void APPL_Main_Process(void)
+{
+	ApplPsply_Calc_Psply();
+	ApplLed_Calc_Led();
+}
 
-#include <string.h>
-
-/* define C boolean */
-#ifndef false
-    #define false (0)
-#endif
-#ifndef true
-    #define true  (!false)
-#endif
-#ifndef FALSE
-	#define FALSE   (0)
-#endif
-#ifndef TRUE
-	#define TRUE    (!FALSE)
-#endif
-
-
-/*   TYPE DEFINITIONS   */
-
-typedef signed int          sint;
-typedef	unsigned int		uint;
-typedef signed char         sint8;          //        -128 to +127
-typedef unsigned char       uint8;          //           0 to 255
-typedef signed short        sint16;         //      -32768 to +32767
-typedef unsigned short      uint16;         //           0 to 65535
-typedef signed long         sint32;         // -2147483648 to +2147483647
-typedef unsigned long       uint32;         //           0 to 4294967295
-typedef float          real32;
-typedef double         real64;
-typedef unsigned char  bool;
-
-#endif /* STD_TYPE_H_ */

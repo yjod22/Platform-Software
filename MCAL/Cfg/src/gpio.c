@@ -46,5 +46,8 @@ void GPIO_Init_All(void)
 	GPIOE_0_INIT(); //Push button port
 #endif
 	GPIOA_3_INIT(); //ADC for check Vtg source status
+
+	LED_R_INIT();
+	LED_G_INIT();
 }
 

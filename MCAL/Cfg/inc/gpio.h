@@ -16,6 +16,10 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:     2016b02
+* Author/Date: Junseok Oh / 2021-10-12
+* Change:      Apply AUTOSAR Architecture
+*******************************************************************************
 * Version:     14.0
 * Author/Date: JSO / 2018-09-29
 * Change:      Initial version
@@ -196,6 +200,45 @@ Port C. Pin 9
 			GPIO_Init(GPIOC, &GPIO_InitStructure);						\
 		} while (0)
 
+
+/*
+***LED Red setting************************************************
+Port A. Pin 15
+**********************************************************************
+*/
+
+#define LED_R_INIT(X)                                                           \
+        do {                                                                    \
+            GPIO_InitTypeDef GPIO_InitStructure;                                \
+            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);                   \
+            GPIO_PinAFConfig(GPIOA, GPIO_PinSource15, GPIO_AF_CAN1);            \
+            GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_15;                      \
+            GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;                      \
+            GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;                   \
+            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                      \
+            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;                   \
+            GPIO_Init(GPIOA, &GPIO_InitStructure);                     \
+        } while (0)
+
+
+/*
+***LED Green setting************************************************
+Port B. Pin 4
+**********************************************************************
+*/
+
+#define LED_G_INIT(X)                                                           \
+        do {                                                                    \
+            GPIO_InitTypeDef GPIO_InitStructure;                                \
+            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);                   \
+            GPIO_PinAFConfig(GPIOB, GPIO_PinSource4, GPIO_AF_CAN1);             \
+            GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_4;                      \
+            GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;                      \
+            GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;                   \
+            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                      \
+            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;                   \
+            GPIO_Init(GPIOB, &GPIO_InitStructure);                     \
+        } while (0)
 
 void GPIO_Init_All(void);
 

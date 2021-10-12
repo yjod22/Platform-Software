@@ -18,22 +18,19 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include "led.h"
 #include "llio.h"
 #include "timer.h"
 #include "adc.h"
 #include "dma.h"
 #include "delay.h"
 #include "gpio.h"
-#include "inpp.h"
-#include "outp.h"
-#include "OutpMotorCtl.h"
-#include "EHAL_distance.h"
-#include "EHAL_motor.h"
-#include "EHAL_adc.h"
 #include "i2c.h"
-#include "I2cPosition.h"
 #include "exti.h"
+
+#include "Rte.h"
+#include "Rte_Switch.h"
+#include "appl.h"
+#include "ehal.h"
 
 #if USE_SEMIHOSTING_ENABLED
 extern void initialise_monitor_handles();
@@ -122,6 +119,7 @@ int main(void)
 void vInitTaskHandler(void *params)
 {
 	/* initialization */
+	Rte_Init();
 	GPIO_Init_All();
 #if DC_MOTOR_USED
 	TIMER2_Init(); // DC motor drive
@@ -135,18 +133,15 @@ void vInitTaskHandler(void *params)
 #endif
 #if MPU6050_USED
 	I2C3_Init();
-	I2cPosition_Init();
+	EhalI2c_Init();
 #endif
 #if PUSH_BUTTON_PE0_USED
 	EXTI_Init_All();
 #endif
 	DMA2_Init();
 	ADC1_Init();
-	EHAL_ADC_Init();
-
-	LED_Init();
-	LED_G_OFF();
-	LED_R_OFF();
+	EhalAdc_Init();
+	EhalDio_Init();
 
 	// Suspend the task
 	vTaskSuspend(xInitTaskHandle);
@@ -158,7 +153,7 @@ void v5msTaskHandler(void *params)
 	while(1)
 	{
 		/* Load ADC results from buffer every 5ms */
-		EHAL_ADC_5ms();
+		EhalAdc_5ms();
 
 		// Suspend the task
 		vTaskSuspend(x5msTaskHandle);
@@ -173,7 +168,7 @@ void v5msTaskHandler(void *params)
 		vTaskDelayUntil(&x5msTaskLastWakeTime, xFrequency);
 
 		/* Load ADC results from buffer every 5ms */
-		EHAL_ADC_5ms();
+		EhalAdc_5ms();
 	}
 #endif
 }
@@ -184,9 +179,9 @@ void v50msTaskHandler(void *params)
 	while(1)
 	{
 		// Execute main functionalities
-		EHAL_ProcMain();
-		DRV_Inpp_ProcMain();
-		DRV_Outp_ProcMain();
+		EHAL_Main_InputProcess();
+		APPL_Main_Process();
+		EHAL_Main_OutputProcess();
 
 		// Suspend the task
 		vTaskSuspend(x50msTaskHandle);
@@ -199,9 +194,9 @@ void v50msTaskHandler(void *params)
 		vTaskDelayUntil(&x50msTaskLastWakeTime, xFrequency);
 
 		// Execute main functionalities
-		EHAL_ProcMain();
-		DRV_Inpp_ProcMain();
-		DRV_Outp_ProcMain();
+		EHAL_Main_InputProcess();
+		APPL_Main_Process();
+		EHAL_Main_OutputProcess();
 	}
 #endif
 }
@@ -234,6 +229,7 @@ void EXTI0_IRQHandler(void)
 	// 2. Toggle the status variable
 	Delay_Ms(2);
 	bPushButton ^= 1;
+	Rte_Write_Switch(bPushButton);
 	traceISR_EXIT();
 }
 

@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     std_type.h
+*  Filename:     EhalAdc.h
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,9 +16,17 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:     2016b02
+* Author/Date: Junseok Oh / 2021-10-12
+* Change:      Apply AUTOSAR Architecture
+*******************************************************************************
 * Version:     16.0
 * Author/Date: JSO / 2018-09-30
-* Change:      Add the typedef of unsigned int
+* Change:      Redefine the architecture
+*******************************************************************************
+* Version:     15.0
+* Author/Date: JSO / 2018-09-30
+* Change:      Define the objects in the header
 *******************************************************************************
 * Version:     14.0
 * Author/Date: JSO / 2018-09-29
@@ -26,39 +34,15 @@
 *******************************************************************************
 */
 
+#ifndef EHALADC_H_
+#define EHALADC_H_
 
-#ifndef STD_TYPE_H_
-#define STD_TYPE_H_
+#include "std_type.h"
 
-#include <string.h>
+extern uint32 EhalAdc_Resultbuffer_au32[1];
 
-/* define C boolean */
-#ifndef false
-    #define false (0)
-#endif
-#ifndef true
-    #define true  (!false)
-#endif
-#ifndef FALSE
-	#define FALSE   (0)
-#endif
-#ifndef TRUE
-	#define TRUE    (!FALSE)
-#endif
+void EhalAdc_Init(void);
+void EhalAdc_5ms(void);
+void EhalAdc_CalcInput(void);
 
-
-/*   TYPE DEFINITIONS   */
-
-typedef signed int          sint;
-typedef	unsigned int		uint;
-typedef signed char         sint8;          //        -128 to +127
-typedef unsigned char       uint8;          //           0 to 255
-typedef signed short        sint16;         //      -32768 to +32767
-typedef unsigned short      uint16;         //           0 to 65535
-typedef signed long         sint32;         // -2147483648 to +2147483647
-typedef unsigned long       uint32;         //           0 to 4294967295
-typedef float          real32;
-typedef double         real64;
-typedef unsigned char  bool;
-
-#endif /* STD_TYPE_H_ */
+#endif /* EHALADC_H_ */

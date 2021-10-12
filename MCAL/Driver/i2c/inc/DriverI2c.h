@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     std_type.h
+*  Filename:     DriverI2c.h
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,9 +16,13 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:	   2016b02-PreV02
+* Author/Date: JSO / 2021-10-03
+* Change:      Make it as a provided interface file
+*******************************************************************************
 * Version:     16.0
 * Author/Date: JSO / 2018-09-30
-* Change:      Add the typedef of unsigned int
+* Change:      Redefine the architecture
 *******************************************************************************
 * Version:     14.0
 * Author/Date: JSO / 2018-09-29
@@ -26,39 +30,23 @@
 *******************************************************************************
 */
 
+#ifndef DRIVERI2C_H_
+#define DRIVERI2C_H_
 
-#ifndef STD_TYPE_H_
-#define STD_TYPE_H_
+#include "mcal.h"
+#include "stm32f4xx.h"
+#include "stm32f4xx_i2c.h"
 
-#include <string.h>
+#define DRIVER_I2C_RECEIVER_MODE      1
+#define DRIVER_I2C_TRANSMITTER_MODE   0
+#define DRIVER_I2C_ACK_ENABLE         1
+#define DRIVER_I2C_ACK_DISABLE        0
 
-/* define C boolean */
-#ifndef false
-    #define false (0)
-#endif
-#ifndef true
-    #define true  (!false)
-#endif
-#ifndef FALSE
-	#define FALSE   (0)
-#endif
-#ifndef TRUE
-	#define TRUE    (!FALSE)
-#endif
+#define DRIVER_I2C_TIMEOUT		   	  2
 
+extern __IO uint32_t TimmingDelay;
 
-/*   TYPE DEFINITIONS   */
-
-typedef signed int          sint;
-typedef	unsigned int		uint;
-typedef signed char         sint8;          //        -128 to +127
-typedef unsigned char       uint8;          //           0 to 255
-typedef signed short        sint16;         //      -32768 to +32767
-typedef unsigned short      uint16;         //           0 to 65535
-typedef signed long         sint32;         // -2147483648 to +2147483647
-typedef unsigned long       uint32;         //           0 to 4294967295
-typedef float          real32;
-typedef double         real64;
-typedef unsigned char  bool;
-
-#endif /* STD_TYPE_H_ */
+extern void Driver_I2c_ReadMulti(I2C_TypeDef* I2Cx, uint8_t address, uint8_t reg, uint8_t* data, uint16_t count);
+extern uint8_t Driver_I2c_Read(I2C_TypeDef* I2Cx, uint8_t address, uint8_t reg);
+extern void Driver_I2c_Write(I2C_TypeDef* I2Cx, uint8_t address, uint8_t reg, uint8_t data);
+#endif /* DRIVERI2C_H_ */

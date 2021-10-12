@@ -16,6 +16,10 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:     2016b02
+* Author/Date: Junseok Oh / 2021-10-12
+* Change:      Apply AUTOSAR Architecture
+*******************************************************************************
 * Version:     14.0
 * Author/Date: JSO / 2018-09-29
 * Change:      Initial version
@@ -26,7 +30,6 @@
 #define TIMER_H_
 
 
-#include "led.h"
 #include "mcal.h"
 
 #define TIMER_PRESCALER_FREQ        1000000   // timer 입력 클력 1MHz

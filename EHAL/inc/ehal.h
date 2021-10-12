@@ -16,6 +16,10 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:     2016b02
+* Author/Date: Junseok Oh / 2021-10-12
+* Change:      Apply AUTOSAR Architecture
+*******************************************************************************
 * Version:     16.0
 * Author/Date: JSO / 2018-09-30
 * Change:      Redefine the architecture
@@ -30,12 +34,12 @@
 #define EHAL_H_
 
 #include "std_type.h"
-#include "ehal_adc.h"
-#include "ehal_distance.h"
-#include "ehal_motor.h"
-#include "ehal_position.h"
+#include "EhalAdc.h"
+#include "EhalI2c.h"
+#include "EhalDio.h"
 
-extern void EHAL_ProcMain(void);
+extern void EHAL_Main_InputProcess(void);
+extern void EHAL_Main_OutputProcess(void);
 
 
 #endif /* EHAL_H_ */

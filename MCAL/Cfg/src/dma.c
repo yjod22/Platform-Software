@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include "stm32f4xx.h"
 #include "dma.h"
-#include "ehal_adc.h"
+#include "EhalAdc.h"
 
 void DMA2_Init(void)
 {
@@ -38,7 +38,7 @@ void DMA2_Init(void)
 	DMA_DeInit(DMA2_Stream0);
 	DMA_InitStructure.DMA_Channel = DMA_Channel_0;
 	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR;
-	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&Adc_Resultbuffer[0];
+	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&EhalAdc_Resultbuffer_au32[0];
 	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
 	DMA_InitStructure.DMA_BufferSize = 1;
 	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
