@@ -3,7 +3,9 @@ This repository contains the source codes of Temperature Indicator.
 
 ## Functionalities
 The main functionality is to indicate the current temperature. When the below pre-conditions are met, the green LED will be on if the temperature is higher than 25 degree. The red LED will be on if the temperature is lower than 25 degree. 
+
 .Pre-condition 1: The MCU gets a stable voltage.
+
 .Pre-condition 2: User pushes the external button connected to the MCU.
 
 ## HW Spec.
