@@ -10,6 +10,7 @@ The main functionality is to indicate the current temperature. When the below pr
 
 ## HW Spec.
 Microcontoller: STM32F4
+
 Temperature sensor: MPU-6050
 
 ## SW Architecture
