@@ -3,6 +3,7 @@ This repository contains the source codes of Temperature Indicator.
 
 ## Functionalities
 The main functionality is to indicate the current temperature. When the below pre-conditions are met, the green LED will be on if the temperature is higher than 25 degree. The red LED will be on if the temperature is lower than 25 degree. 
+The current temperature value is sent over to the USART hardware. A PC can read it via a COM port using a USB-USART bridge. 
 
 .Pre-condition 1: The MCU gets a stable voltage.
 
@@ -32,3 +33,6 @@ It forms the interface towards the GPIO hardware by calling the driver APIs.
 
 ### I2C
 It represents abstraction of signals (Temperature, Accelerometer, Gyroscpoe) measured by the MPU-6050 sensor. It communicates with the sensor via I2C protocol by calling the driver APIs.
+
+### USART
+It sends a measured temperature value to the USART hardware every 50ms.
