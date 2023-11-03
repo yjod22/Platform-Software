@@ -9,7 +9,7 @@
 #define PRESSED 						TRUE
 #define DC_MOTOR_USED					FALSE
 #define ULTRASONIC_WAVE_SENSOR_USED		FALSE
-#define USART_USED						FALSE
+#define USART_USED						TRUE
 #define MPU6050_USED					TRUE
 #define PUSH_BUTTON_PE0_USED			TRUE
 

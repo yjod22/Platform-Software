@@ -16,6 +16,10 @@
 *******************************************************************************
 * History
 *******************************************************************************
+* Version:     2016b03
+* Author/Date: Junseok Oh / 2023-11-03
+* Change:      Enable Usart driver
+*******************************************************************************
 * Version:     2016b02
 * Author/Date: Junseok Oh / 2021-10-12
 * Change:      Apply AUTOSAR Architecture
@@ -39,4 +43,5 @@ void EHAL_Main_InputProcess(void)
 void EHAL_Main_OutputProcess(void)
 {
 	EhalDio_CalcOutput();
+	EhalUsart_SendTemperature();
 }
