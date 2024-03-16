@@ -55,7 +55,7 @@ Temperature sensor: MPU-6050
 ![plot](./Architecture.jpg)
 FreeRTOS is used as Real-time OS and the basic AUTOSAR architecture is applied to decrease hardware dependencies. It consists of the three layers, Application software layer (APPL), Run-time environment (RTE), Basic software layer (BSW). RTE just serves as an interface between APPL and BSW. The architecture decouples APPL from the hardware so that reusability is ensured. Runnables are called by RTOS instead of RTE. 
 
-### 1.4 SWUnits
+### 1.4 SW Units
 #### 1.4.1 LED
 It implements the main functionality. It checks if the two pre-conditions are fulfilled. It turns the green LED on and the red LED off if the temperature is higher than 25 degree. Otherwise, it turns the green LED off and the red LED on.
 
