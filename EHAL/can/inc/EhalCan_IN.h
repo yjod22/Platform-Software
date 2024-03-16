@@ -29,6 +29,13 @@
 #include "EhalCan_CFG.h"
 #include "stm32f4xx_can.h"
 
+
+static inline void EhalCan_IN_RxMessage(CanRxMsg* msg)
+{
+	while(!CAN_MessagePending(CAN1, CAN_FIFO0));
+	CAN_Receive(CAN1, CAN_FIFO0, msg);
+}
+
 static inline void EhalCan_IN_TxMessage(CanTxMsg* msg)
 {
 	CanTxMsg canTxMsg;
@@ -54,7 +61,7 @@ static inline void EhalCan_IN_TxMessage(CanTxMsg* msg)
 		canTxMsg.Data[i] = canData[i];
 	}
 
-	memcpy(msg, &canTxMsg, sizeof(*msg));
+	memcpy(msg, &canTxMsg, sizeof(canTxMsg));
 }
 
 #endif /* EHALCAN_IN_H_ */
