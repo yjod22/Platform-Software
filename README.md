@@ -5,20 +5,35 @@ It provides a firmware foundation on which a different application runs.
 
 ## Table of Contents
 [1. Temperature Indicator](#1-temperature-indicator)
+
 &nbsp;&nbsp;[1.1 Functionalities](#11-functionalities)
+
 &nbsp;&nbsp;[1.2 HW Specification](#12-hw-specification)
+
 &nbsp;&nbsp;[1.3 SW Architecture](#13-sw-architecture)
+
 &nbsp;&nbsp;[1.4 SW Units](#14-sw-units)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.1 LED](#141-led)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.2 PSPLY](#142-psply)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.3 ADC](#143-adc)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.4 DIO](#144-dio)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.5 I2C](#145-i2c)
+
 &nbsp;&nbsp;&nbsp;&nbsp;[1.4.6 USART](#146-usart)
+
 [2. CAN Analyzer](#2-can-analyzer)
+
 &nbsp;&nbsp;[2.1 Functionalities](#21-functionalities)
+
 &nbsp;&nbsp;[2.2 HW Specification](#22-hw-specification)
+
 &nbsp;&nbsp;[2.3 SW Architecture](#23-sw-architecture)
+
 &nbsp;&nbsp;[2.4 SW Units](#24-sw-units)
 
 ## 1. Temperature Indicator
