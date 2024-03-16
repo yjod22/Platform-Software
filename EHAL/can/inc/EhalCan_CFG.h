@@ -25,6 +25,7 @@
 #ifndef EHALCAN_CFG_H_
 #define EHALCAN_CFG_H_
 
+#include "Rte_EhalCan.h"
 #include "std_type.h"
 
 #endif /* EHALCAN_CFG_H_ */

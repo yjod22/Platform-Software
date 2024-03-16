@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     Rte.c
+*  Filename:     Rte_EhalCan.h
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,66 +16,19 @@
 *******************************************************************************
 * History
 *******************************************************************************
-* Version:     2016b02
-* Author/Date: Junseok Oh / 2021-10-12
-* Change:      Apply AUTOSAR Architecture
+* Version:     2016b03
+* Author/Date: Junseok Oh / 2024-03-16
+* Change:      enable CAN Rx functionality
 *******************************************************************************
 */
 
+#ifndef RTE_EHALCAN_H_
+#define RTE_EHALCAN_H_
+
 #include "std_type.h"
 
-/*
- * DEFINITION OF LOCAL MACROS/DEFINES
- * */
+extern uint8 Rte_CanRxMsg[8];
 
-/*
- * DEFINITION OF LOCAL TYPES
- * */
+#define Rte_Write_CanRxMsg(data) (memcpy(Rte_CanRxMsg, data, sizeof(data)))
 
-/*
- * DEFINITION OF LOCAL VARIABLES
- * */
-
-/*
- * DEFINITION OF LOCAL CONSTANTS
- * */
-
-/*
- * DECLARATION OF LOCAL FUNCTIONS
- * */
-
-/*
- * DEFINITION OF GLOBAL VARIABLES
- * */
-
-float Rte_Temperature;
-uint32 Rte_Battery;
-bool Rte_Switch;
-uint8 Rte_PsplyMode;
-bool Rte_PsplyOut;
-bool Rte_LedRed;
-bool Rte_LedGreen;
-uint8 Rte_CanRxMsg[8];
-
-/*
- * IMPLEMENTATION OF GLOBAL FUNCTIONS
- * */
-
-void Rte_Init()
-{
-	Rte_Temperature = 0.0;
-	Rte_Battery = 0;
-	Rte_Switch = false;
-	Rte_PsplyMode = 0;
-	Rte_PsplyOut = false;
-	Rte_LedRed = false;
-	Rte_LedGreen = false;
-	for(int i=0; i<8; i++)
-	{
-		Rte_CanRxMsg[i] = 0;
-	}
-}
-
-/*
- * IMPLEMENTATION OF LOCAL FUNCTIONS
- * */
+#endif /* RTE_EHALCAN_H_ */

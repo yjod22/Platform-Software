@@ -62,6 +62,13 @@ void EhalCan_SendMessage(void)
 	EhalCan_OUT_TxMessage(&txMsg);
 }
 
+void EhalCan_ReceiveMessage(void)
+{
+	CanRxMsg rxMsg;
+	EhalCan_IN_RxMessage(&rxMsg);
+	EhalCan_OUT_RxMessage(&rxMsg);
+}
+
 /*
  * IMPLEMENTATION OF LOCAL FUNCTIONS
  * */

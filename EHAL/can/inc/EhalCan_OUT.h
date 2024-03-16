@@ -33,4 +33,9 @@ static inline void EhalCan_OUT_TxMessage(CanTxMsg* msg)
 	CAN_Transmit(CAN1, msg);
 }
 
+static inline void EhalCan_OUT_RxMessage(CanRxMsg* msg)
+{
+	Rte_Write_CanRxMsg(msg->Data);
+}
+
 #endif /* EHALCAN_OUT_H_ */
