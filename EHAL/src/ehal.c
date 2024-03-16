@@ -31,6 +31,7 @@
 */
 
 #include "ehal.h"
+#include "stm32f4xx.h"
 
 void EHAL_Main_InputProcess(void)
 {
@@ -44,4 +45,5 @@ void EHAL_Main_OutputProcess(void)
 {
 	EhalDio_CalcOutput();
 	EhalUsart_SendTemperature();
+	EhalCan_SendMessage();
 }

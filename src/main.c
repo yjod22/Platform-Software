@@ -32,6 +32,7 @@
 #include "gpio.h"
 #include "i2c.h"
 #include "exti.h"
+#include "can.h"
 
 #include "Rte.h"
 #include "Rte_Switch.h"
@@ -84,6 +85,7 @@ int main(void)
 	// HSI ON, HSE OFF, PLL OFF, system clock = 16Mhz, cpu_clock = 16Mhz
 	RCC_DeInit();
 	SystemCoreClockUpdate();
+//	SystemInit();
 
 	// Start recording
 	SEGGER_SYSVIEW_Conf();
@@ -143,6 +145,9 @@ void vInitTaskHandler(void *params)
 #endif
 #if PUSH_BUTTON_PE0_USED
 	EXTI_Init_All();
+#endif
+#if CAN_USED
+	CAN1_Init();
 #endif
 	DMA2_Init();
 	ADC1_Init();

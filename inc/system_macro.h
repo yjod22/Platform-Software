@@ -12,5 +12,6 @@
 #define USART_USED						TRUE
 #define MPU6050_USED					TRUE
 #define PUSH_BUTTON_PE0_USED			TRUE
+#define CAN_USED						TRUE
 
 #endif
