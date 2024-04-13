@@ -33,9 +33,7 @@
 #ifndef DRIVERI2C_H_
 #define DRIVERI2C_H_
 
-#include "mcal.h"
 #include "stm32f4xx.h"
-#include "stm32f4xx_i2c.h"
 
 #define DRIVER_I2C_RECEIVER_MODE      1
 #define DRIVER_I2C_TRANSMITTER_MODE   0

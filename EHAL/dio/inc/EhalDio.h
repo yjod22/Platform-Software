@@ -27,6 +27,7 @@
 
 #include "std_type.h"
 
-extern void EhalDio_CalcOutput(void);
+void EhalDio_Init(void);
+void EhalDio_CalcOutput(void);
 
 #endif /* EHALDIO_H_ */

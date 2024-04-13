@@ -26,7 +26,6 @@
 #define EHALI2C_IN_H_
 
 #include "EhalI2c_CFG.h"
-#include "DriverI2c.h"
 
 static inline void EhalI2c_IN_I2c_Read(I2C_TypeDef* I2Cx, uint8_t address, uint8_t reg, uint8_t *data)
 {

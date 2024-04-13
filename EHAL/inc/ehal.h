@@ -37,6 +37,7 @@
 #include "EhalAdc.h"
 #include "EhalI2c.h"
 #include "EhalDio.h"
+#include "EhalExti.h"
 #include "EhalUsart.h"
 
 extern void EHAL_Main_InputProcess(void);

@@ -60,6 +60,13 @@ void floatToString(float value, uint8_t *str, int precision);
  * IMPLEMENTATION OF GLOBAL FUNCTIONS
  * */
 
+void EhalUsart_Init(void)
+{
+	EhalUsart_OUT_InitRcc();
+	EhalUsart_OUT_InitGpio();
+	EhalUsart_OUT_InitUsart();
+}
+
 void EhalUsart_SendTemperature(void)
 {
 	uint8_t EhalUsart_Description_str[25] = "current temperature: ";

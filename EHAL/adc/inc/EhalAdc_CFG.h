@@ -27,6 +27,10 @@
 
 #include "Rte_EhalAdc.h"
 #include "std_type.h"
+#include "stm32f4xx_rcc.h"
+#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_dma.h"
+#include "stm32f4xx_adc.h"
 
 #define ADC_FACTOR (40/3)
 #define ADC_FILT_ON (2)
