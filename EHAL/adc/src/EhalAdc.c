@@ -102,6 +102,10 @@ uint32 EhalAdc_Resultbuffer_au32[1];
 
 void EhalAdc_Init(void)
 {
+	EhalAdc_OUT_InitRcc();
+	EhalAdc_OUT_InitGpio();
+	EhalAdc_OUT_InitDma();
+	EhalAdc_OUT_InitAdc();
 	EhalAdc_FIR_Clear(&EhalAdc_BattDscr_st);
 }
 

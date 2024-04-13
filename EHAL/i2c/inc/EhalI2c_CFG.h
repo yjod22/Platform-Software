@@ -26,7 +26,7 @@
 #define EHALI2C_CFG_H_
 
 #include "Rte_EhalI2c.h"
-#include "stm32f4xx.h"
+#include "DriverI2c.h"
 #include "std_type.h"
 /*
  * DEFINITION OF GLOBAL MACROS/DEFINES
