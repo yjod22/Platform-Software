@@ -31,7 +31,8 @@
 
 static inline void EhalCan_IN_RxMessage(CanRxMsg* msg)
 {
-	while(!CAN_MessagePending(CAN1, CAN_FIFO0));
+	TimmingDelay = EHAL_CAN_TIMEOUT;
+	while(!CAN_MessagePending(CAN1, CAN_FIFO0) && TimmingDelay);
 	CAN_Receive(CAN1, CAN_FIFO0, msg);
 }
 

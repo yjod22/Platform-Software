@@ -31,4 +31,8 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_can.h"
 
+#define EHAL_CAN_TIMEOUT 2
+
+extern __IO uint32_t TimmingDelay;
+
 #endif /* EHALCAN_CFG_H_ */
