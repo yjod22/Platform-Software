@@ -79,7 +79,7 @@ static inline void EhalCan_OUT_InitCan1(void)
 	CAN_InitTypeDef CAN_InitStruct;
 	CAN_StructInit(&CAN_InitStruct);
 	CAN_InitStruct.CAN_Prescaler = 2;
-	CAN_InitStruct.CAN_Mode = CAN_Mode_LoopBack;
+	CAN_InitStruct.CAN_Mode = CAN_Mode_Normal;
 	CAN_InitStruct.CAN_SJW = CAN_SJW_1tq;
 	CAN_InitStruct.CAN_BS1 = CAN_BS1_13tq;
 	CAN_InitStruct.CAN_BS2 = CAN_BS2_2tq;
