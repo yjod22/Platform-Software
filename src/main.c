@@ -23,17 +23,6 @@
 #include "stm32f4xx.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
-#include "llio.h"
-#include "timer.h"
-#include "adc.h"
-#include "dma.h"
-#include "delay.h"
-#include "gpio.h"
-#include "i2c.h"
-#include "exti.h"
-#include "can.h"
-
 #include "Rte.h"
 #include "Rte_Switch.h"
 #include "appl.h"
@@ -85,7 +74,6 @@ int main(void)
 	// HSI ON, HSE OFF, PLL OFF, system clock = 16Mhz, cpu_clock = 16Mhz
 	RCC_DeInit();
 	SystemCoreClockUpdate();
-//	SystemInit();
 
 	// Start recording
 	SEGGER_SYSVIEW_Conf();
@@ -128,26 +116,15 @@ void vInitTaskHandler(void *params)
 {
 	/* initialization */
 	Rte_Init();
-	GPIO_Init_All();
-#if DC_MOTOR_USED
-	TIMER2_Init(); // DC motor drive
-#endif
-#if ULTRASONIC_WAVE_SENSOR_USED
-	TIMER3_Init(); // Ultrasonic wave sensor trigger signal
-	TIMER5_Init(); // Ultrasonic wave sensor echo signal
-#endif
 #if USART_USED
-	LLIO_Init(115200); // USART setting
+	EhalUsart_Init();
 #endif
 #if MPU6050_USED
-	I2C3_Init();
 	EhalI2c_Init();
 #endif
 #if PUSH_BUTTON_PE0_USED
-	EXTI_Init_All();
+	EhalExti_Init();
 #endif
-	DMA2_Init();
-	ADC1_Init();
 	EhalAdc_Init();
 	EhalDio_Init();
 	EhalCan_Init();

@@ -79,13 +79,17 @@ static EhalI2c_Position_tst EhalI2c_Position_st;
 
 void EhalI2c_Init(void)
 {
-	uint8_t temp;
-	
+	EhalI2c_OUT_InitRcc();
+	EhalI2c_OUT_InitGpio();
+	EhalI2c_OUT_InitI2c();
+
 	/* Format I2C address */
 	EhalI2c_Position_st.Address_u8 = MPU6050_I2C_ADDR;
 	
 	/* Wakeup MPU6050 */
 	EhalI2c_OUT_I2c_Write(MPU6050_I2C, EhalI2c_Position_st.Address_u8, MPU6050_PWR_MGMT_1, 0x00);
+
+	uint8_t temp;
 
 	/* Config accelerometer */
 	EhalI2c_IN_I2c_Read(MPU6050_I2C, EhalI2c_Position_st.Address_u8, MPU6050_ACCEL_CONFIG, &temp);

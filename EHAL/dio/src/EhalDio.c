@@ -58,6 +58,9 @@ static bool EhalDio_LedGreen_b = false;
 
 void EhalDio_Init(void)
 {
+	EhalDio_OUT_InitRcc();
+	EhalDio_OUT_InitGpio();
+
 	EhalDio_OUT_LedRed_Off();
 	EhalDio_OUT_LedGreen_Off();
 }

@@ -37,6 +37,7 @@
 #include "EhalAdc.h"
 #include "EhalI2c.h"
 #include "EhalDio.h"
+#include "EhalExti.h"
 #include "EhalUsart.h"
 #include "EhalCan.h"
 
