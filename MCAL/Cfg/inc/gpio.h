@@ -201,46 +201,6 @@ Port C. Pin 9
 		} while (0)
 
 /*
-***CAN_RX setting************************************************
-Port A. Pin 11
-
-**********************************************************************
-*/
-
-#define GPIOA_11_INIT(X)                                                 \
-        do {                                                            \
-            GPIO_InitTypeDef GPIO_InitStructure;                        \
-            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);       \
-            GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_CAN1);     \
-            GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_11;                 \
-            GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;              \
-            GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;           \
-            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;              \
-            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;           \
-            GPIO_Init(GPIOA, &GPIO_InitStructure);                      \
-        } while (0)
-
-/*
-***CAN_TX setting************************************************
-Port A. Pin 12
-
-**********************************************************************
-*/
-
-#define GPIOA_12_INIT(X)                                                 \
-        do {                                                            \
-            GPIO_InitTypeDef GPIO_InitStructure;                        \
-            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);       \
-            GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_CAN1);     \
-            GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_12;                 \
-            GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;              \
-            GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;           \
-            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;              \
-            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;           \
-            GPIO_Init(GPIOA, &GPIO_InitStructure);                      \
-        } while (0)
-
-/*
 ***LED Red setting************************************************
 Port A. Pin 15
 **********************************************************************

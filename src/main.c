@@ -146,13 +146,11 @@ void vInitTaskHandler(void *params)
 #if PUSH_BUTTON_PE0_USED
 	EXTI_Init_All();
 #endif
-#if CAN_USED
-	CAN1_Init();
-#endif
 	DMA2_Init();
 	ADC1_Init();
 	EhalAdc_Init();
 	EhalDio_Init();
+	EhalCan_Init();
 
 	// Suspend the task
 	vTaskSuspend(xInitTaskHandle);

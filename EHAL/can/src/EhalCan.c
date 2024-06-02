@@ -55,6 +55,13 @@
  * IMPLEMENTATION OF GLOBAL FUNCTIONS
  * */
 
+void EhalCan_Init(void)
+{
+	EhalCan_OUT_InitRcc();
+	EhalCan_OUT_InitGpio();
+	EhalCan_OUT_InitCan1();
+}
+
 void EhalCan_SendMessage(void)
 {
 	CanTxMsg txMsg;
