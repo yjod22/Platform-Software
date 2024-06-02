@@ -29,5 +29,6 @@
 
 extern void EhalCan_Init(void);
 extern void EhalCan_SendMessage(void);
+extern void EhalCan_ReceiveMessage(void);
 
 #endif /* EHALCAN_H_ */

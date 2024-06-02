@@ -37,7 +37,6 @@ static inline void EhalCan_IN_RxMessage(CanRxMsg* msg)
 
 static inline void EhalCan_IN_TxMessage(CanTxMsg* msg)
 {
-#if CAN_TX_USED
 	CanTxMsg canTxMsg;
 	canTxMsg.StdId = 0x111;
 	canTxMsg.ExtId = 0;
@@ -62,7 +61,6 @@ static inline void EhalCan_IN_TxMessage(CanTxMsg* msg)
 	}
 
 	memcpy(msg, &canTxMsg, sizeof(canTxMsg));
-#endif
 }
 
 #endif /* EHALCAN_IN_H_ */

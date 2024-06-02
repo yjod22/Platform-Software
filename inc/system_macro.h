@@ -13,5 +13,6 @@
 #define MPU6050_USED					TRUE
 #define PUSH_BUTTON_PE0_USED			TRUE
 #define CAN_TX_USED						FALSE
+#define CAN_RX_USED						TRUE
 
 #endif

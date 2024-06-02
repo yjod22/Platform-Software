@@ -32,19 +32,28 @@
 
 #include "ehal.h"
 #include "stm32f4xx.h"
+#include "system_macro.h"
 
 void EHAL_Main_InputProcess(void)
 {
 	EhalAdc_CalcInput();
+#if MPU6050_USED
 	EhalI2c_Read_Accelerometer();
 	EhalI2c_Read_Temperature();
 	EhalI2c_Read_Gyroscope();
+#endif
 }
 
 void EHAL_Main_OutputProcess(void)
 {
 	EhalDio_CalcOutput();
+#if USART_USED
 	EhalUsart_SendTemperature();
+#endif
+#if CAN_TX_USED
 	EhalCan_SendMessage();
+#endif
+#if CAN_RX_USED
 	EhalCan_ReceiveMessage();
+#endif
 }

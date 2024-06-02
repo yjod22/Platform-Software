@@ -116,6 +116,9 @@ void vInitTaskHandler(void *params)
 {
 	/* initialization */
 	Rte_Init();
+#if CAN_TX_USED || CAN_RX_USED
+	EhalCan_Init();
+#endif
 #if USART_USED
 	EhalUsart_Init();
 #endif
@@ -127,7 +130,6 @@ void vInitTaskHandler(void *params)
 #endif
 	EhalAdc_Init();
 	EhalDio_Init();
-	EhalCan_Init();
 
 	// Suspend the task
 	vTaskSuspend(xInitTaskHandle);
