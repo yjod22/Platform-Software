@@ -53,7 +53,4 @@ void EHAL_Main_OutputProcess(void)
 #if CAN_TX_USED
 	EhalCan_SendMessage();
 #endif
-#if CAN_RX_USED
-	EhalCan_ReceiveMessage();
-#endif
 }

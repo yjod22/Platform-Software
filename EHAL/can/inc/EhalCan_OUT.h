@@ -98,8 +98,23 @@ static inline void EhalCan_OUT_InitCan1(void)
 	/* Initialize Filter */
 	CAN_FilterInit(&CAN_FilterStruct);
 
+	/* Configure Interrupt */
+	CAN_ITConfig(CAN1, CAN_IT_FMP0, ENABLE);
+
 	/* Initialize CAN */
 	CAN_Init(CAN1, &CAN_InitStruct);
+}
+
+static inline void EhalCan_OUT_InitNvic()
+{
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    /* Enable the CAN RX Interrupt */
+    NVIC_InitStructure.NVIC_IRQChannel = CAN1_RX0_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
 }
 
 static inline void EhalCan_OUT_TxMessage(CanTxMsg* msg)

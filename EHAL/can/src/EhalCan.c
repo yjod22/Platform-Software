@@ -60,6 +60,7 @@ void EhalCan_Init(void)
 	EhalCan_OUT_InitRcc();
 	EhalCan_OUT_InitGpio();
 	EhalCan_OUT_InitCan1();
+	EhalCan_OUT_InitNvic();
 }
 
 void EhalCan_SendMessage(void)
