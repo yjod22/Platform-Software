@@ -39,6 +39,7 @@
 #include "EhalDio.h"
 #include "EhalExti.h"
 #include "EhalUsart.h"
+#include "EhalCan.h"
 
 extern void EHAL_Main_InputProcess(void);
 extern void EHAL_Main_OutputProcess(void);

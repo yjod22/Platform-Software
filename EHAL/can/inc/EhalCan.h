@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     Rte.c
+*  Filename:     EhalCan.h
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,66 +16,19 @@
 *******************************************************************************
 * History
 *******************************************************************************
-* Version:     2016b02
-* Author/Date: Junseok Oh / 2021-10-12
-* Change:      Apply AUTOSAR Architecture
+* Version:     2016b04
+* Author/Date: Junseok Oh / 2024-02-28
+* Change:      Enable Can driver
 *******************************************************************************
 */
 
+#ifndef EHALCAN_H_
+#define EHALCAN_H_
+
 #include "std_type.h"
 
-/*
- * DEFINITION OF LOCAL MACROS/DEFINES
- * */
+extern void EhalCan_Init(void);
+extern void EhalCan_SendMessage(void);
+extern void EhalCan_ReceiveMessage(void);
 
-/*
- * DEFINITION OF LOCAL TYPES
- * */
-
-/*
- * DEFINITION OF LOCAL VARIABLES
- * */
-
-/*
- * DEFINITION OF LOCAL CONSTANTS
- * */
-
-/*
- * DECLARATION OF LOCAL FUNCTIONS
- * */
-
-/*
- * DEFINITION OF GLOBAL VARIABLES
- * */
-
-float Rte_Temperature;
-uint32 Rte_Battery;
-bool Rte_Switch;
-uint8 Rte_PsplyMode;
-bool Rte_PsplyOut;
-bool Rte_LedRed;
-bool Rte_LedGreen;
-uint8 Rte_CanRxMsg[8];
-
-/*
- * IMPLEMENTATION OF GLOBAL FUNCTIONS
- * */
-
-void Rte_Init()
-{
-	Rte_Temperature = 0.0;
-	Rte_Battery = 0;
-	Rte_Switch = false;
-	Rte_PsplyMode = 0;
-	Rte_PsplyOut = false;
-	Rte_LedRed = false;
-	Rte_LedGreen = false;
-	for(int i=0; i<8; i++)
-	{
-		Rte_CanRxMsg[i] = 0;
-	}
-}
-
-/*
- * IMPLEMENTATION OF LOCAL FUNCTIONS
- * */
+#endif /* EHALCAN_H_ */

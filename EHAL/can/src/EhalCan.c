@@ -6,7 +6,7 @@
 *                                                                             *
 *******************************************************************************
 *
-*  Filename:     Rte.c
+*  Filename:     EhalCan.c
 *
 *******************************************************************************                                                                            *
 *  Description:
@@ -16,13 +16,15 @@
 *******************************************************************************
 * History
 *******************************************************************************
-* Version:     2016b02
-* Author/Date: Junseok Oh / 2021-10-12
-* Change:      Apply AUTOSAR Architecture
+* Version:     2016b04
+* Author/Date: Junseok Oh / 2024-02-28
+* Change:      Enable Can driver
 *******************************************************************************
 */
 
-#include "std_type.h"
+#include "EhalCan_CFG.h"
+#include "EhalCan_IN.h"
+#include "EhalCan_OUT.h"
 
 /*
  * DEFINITION OF LOCAL MACROS/DEFINES
@@ -44,36 +46,35 @@
  * DECLARATION OF LOCAL FUNCTIONS
  * */
 
+
 /*
  * DEFINITION OF GLOBAL VARIABLES
  * */
-
-float Rte_Temperature;
-uint32 Rte_Battery;
-bool Rte_Switch;
-uint8 Rte_PsplyMode;
-bool Rte_PsplyOut;
-bool Rte_LedRed;
-bool Rte_LedGreen;
-uint8 Rte_CanRxMsg[8];
 
 /*
  * IMPLEMENTATION OF GLOBAL FUNCTIONS
  * */
 
-void Rte_Init()
+void EhalCan_Init(void)
 {
-	Rte_Temperature = 0.0;
-	Rte_Battery = 0;
-	Rte_Switch = false;
-	Rte_PsplyMode = 0;
-	Rte_PsplyOut = false;
-	Rte_LedRed = false;
-	Rte_LedGreen = false;
-	for(int i=0; i<8; i++)
-	{
-		Rte_CanRxMsg[i] = 0;
-	}
+	EhalCan_OUT_InitRcc();
+	EhalCan_OUT_InitGpio();
+	EhalCan_OUT_InitCan1();
+	EhalCan_OUT_InitNvic();
+}
+
+void EhalCan_SendMessage(void)
+{
+	CanTxMsg txMsg;
+	EhalCan_IN_TxMessage(&txMsg);
+	EhalCan_OUT_TxMessage(&txMsg);
+}
+
+void EhalCan_ReceiveMessage(void)
+{
+	CanRxMsg rxMsg;
+	EhalCan_IN_RxMessage(&rxMsg);
+	EhalCan_OUT_RxMessage(&rxMsg);
 }
 
 /*

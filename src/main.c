@@ -25,6 +25,7 @@
 #include "task.h"
 #include "Rte.h"
 #include "Rte_Switch.h"
+#include "Rte_EhalCan.h"
 #include "appl.h"
 #include "ehal.h"
 
@@ -116,6 +117,9 @@ void vInitTaskHandler(void *params)
 {
 	/* initialization */
 	Rte_Init();
+#if CAN_TX_USED || CAN_RX_USED
+	EhalCan_Init();
+#endif
 #if USART_USED
 	EhalUsart_Init();
 #endif
@@ -240,6 +244,18 @@ void Delay_Ms_FromISR(uint32_t parDelayMs)
 
 	// Loop until it reaches the target time
 	while(xTaskGetTickCountFromISR() - stampTick < delayTick);
+}
+#endif
+
+#if CAN_RX_USED
+void CAN1_RX0_IRQHandler(void)
+{
+  	traceISR_ENTER();
+  	CAN_ClearITPendingBit(CAN1, CAN_IT_FMP0);
+  	CanRxMsg rxMsg;
+  	CAN_Receive(CAN1, CAN_FIFO0, &rxMsg);
+	Rte_Write_CanRxMsg(rxMsg.Data);
+	traceISR_EXIT();
 }
 #endif
 
