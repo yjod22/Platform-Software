@@ -109,10 +109,13 @@ static inline void EhalCan_OUT_InitNvic()
 {
     NVIC_InitTypeDef NVIC_InitStructure;
 
+    /* Configure the priority group */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
     /* Enable the CAN RX Interrupt */
     NVIC_InitStructure.NVIC_IRQChannel = CAN1_RX0_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 6;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
@@ -120,11 +123,6 @@ static inline void EhalCan_OUT_InitNvic()
 static inline void EhalCan_OUT_TxMessage(CanTxMsg* msg)
 {
 	CAN_Transmit(CAN1, msg);
-}
-
-static inline void EhalCan_OUT_RxMessage(CanRxMsg* msg)
-{
-	Rte_Write_CanRxMsg(msg->Data);
 }
 
 #endif /* EHALCAN_OUT_H_ */

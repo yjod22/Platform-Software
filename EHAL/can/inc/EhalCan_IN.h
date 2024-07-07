@@ -29,13 +29,6 @@
 #include "EhalCan_CFG.h"
 #include "system_macro.h"
 
-static inline void EhalCan_IN_RxMessage(CanRxMsg* msg)
-{
-	TimmingDelay = EHAL_CAN_TIMEOUT;
-	while(!CAN_MessagePending(CAN1, CAN_FIFO0) && TimmingDelay);
-	CAN_Receive(CAN1, CAN_FIFO0, msg);
-}
-
 static inline void EhalCan_IN_TxMessage(CanTxMsg* msg)
 {
 	CanTxMsg canTxMsg;

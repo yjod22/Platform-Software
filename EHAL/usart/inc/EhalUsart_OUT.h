@@ -75,6 +75,9 @@ static inline void EhalUsart_OUT_InitUsart(void)
 static inline void EhalUsart_OUT_SendData(uint16_t data)
 {
 	USART_SendData(USART1, data);
+
+	/* Wait until the byte has been transmitted */
+	while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == FALSE);
 }
 
 #endif /* EHALDIO_OUT_H_ */
