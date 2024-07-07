@@ -23,6 +23,9 @@
 */
 
 #include "std_type.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "Rte_EhalCan.h"
 
 /*
  * DEFINITION OF LOCAL MACROS/DEFINES
@@ -56,6 +59,7 @@ bool Rte_PsplyOut;
 bool Rte_LedRed;
 bool Rte_LedGreen;
 uint8 Rte_CanRxMsg[8];
+QueueHandle_t Rte_CanQueue;
 
 /*
  * IMPLEMENTATION OF GLOBAL FUNCTIONS
@@ -74,6 +78,7 @@ void Rte_Init()
 	{
 		Rte_CanRxMsg[i] = 0;
 	}
+	Rte_CanQueue = xQueueCreate(QUEUE_LENGTH, QUEUE_ITEM_SIZE);
 }
 
 /*

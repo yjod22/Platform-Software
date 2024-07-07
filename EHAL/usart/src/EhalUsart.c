@@ -37,6 +37,9 @@
 /*
  * DEFINITION OF LOCAL VARIABLES
  * */
+uint8_t EhalUsart_Temperature_Description_str[22] = "Current temperature: ";
+uint8_t EhalUsart_Can_Description_str[30] = "Counter of received CAN msg: ";
+uint8_t EhalUsart_Eol_str[2] = "\r\n";
 
 /*
  * DEFINITION OF LOCAL CONSTANTS
@@ -69,12 +72,9 @@ void EhalUsart_Init(void)
 
 void EhalUsart_SendTemperature(void)
 {
-	uint8_t EhalUsart_Description_str[25] = "current temperature: ";
-	for(int i=0; i<sizeof(EhalUsart_Description_str); i++)
+	for(int i=0; i<sizeof(EhalUsart_Temperature_Description_str); i++)
 	{
-		EhalUsart_OUT_SendData(EhalUsart_Description_str[i]);
-		/* Wait until the byte has been transmitted */
-		while (EhalUsart_IN_FlagStatus_TxEmpty() == FALSE);
+		EhalUsart_OUT_SendData(EhalUsart_Temperature_Description_str[i]);
 	}
 
 	float EhalUsart_Temperature_f;
@@ -84,16 +84,35 @@ void EhalUsart_SendTemperature(void)
 	for(int i=0; i<sizeof(EhalUsart_Temperature_str); i++)
 	{
 		EhalUsart_OUT_SendData(EhalUsart_Temperature_str[i]);
-		/* Wait until the byte has been transmitted */
-		while (EhalUsart_IN_FlagStatus_TxEmpty() == FALSE);
 	}
 
-	uint8_t EhalUsart_Eol_str[3] = "\r";
 	for(int i=0; i<sizeof(EhalUsart_Eol_str); i++)
 	{
 		EhalUsart_OUT_SendData(EhalUsart_Eol_str[i]);
-		/* Wait until the byte has been transmitted */
-		while (EhalUsart_IN_FlagStatus_TxEmpty() == FALSE);
+	}
+}
+
+void EhalUsart_SendCan(void)
+{
+	Rte_CanRx_tst canRx;
+	while (EhalUsart_IN_Can(&canRx) == TRUE)
+	{
+		for(int i=0; i<sizeof(EhalUsart_Can_Description_str); i++)
+		{
+			EhalUsart_OUT_SendData(EhalUsart_Can_Description_str[i]);
+		}
+
+		uint8_t EhalUsart_Can_MsgCounter_str[10];
+		intToString(canRx.msgCounter, EhalUsart_Can_MsgCounter_str);
+		for(int i=0; EhalUsart_Can_MsgCounter_str[i] != '\0'; i++)
+		{
+			EhalUsart_OUT_SendData(EhalUsart_Can_MsgCounter_str[i]);
+		}
+
+		for(int i=0; i<sizeof(EhalUsart_Eol_str); i++)
+		{
+			EhalUsart_OUT_SendData(EhalUsart_Eol_str[i]);
+		}
 	}
 }
 

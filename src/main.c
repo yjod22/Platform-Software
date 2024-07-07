@@ -61,6 +61,8 @@ uint32_t ulCnt50msTask;
 TickType_t x5msTaskLastWakeTime;
 TickType_t x50msTaskLastWakeTime;
 #endif
+Rte_CanRx_tst canRx;
+BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
 int main(void)
 {
@@ -86,6 +88,7 @@ int main(void)
 	ulCnt5msTask = configCOUNTER_5MS_TASK;
 	ulCnt50msTask = configCOUNTER_50MS_TASK;
 #endif
+	canRx.msgCounter = 0;
 
 	xTaskCreate(vInitTaskHandler,
 				"Init_Task",
@@ -252,9 +255,10 @@ void CAN1_RX0_IRQHandler(void)
 {
   	traceISR_ENTER();
   	CAN_ClearITPendingBit(CAN1, CAN_IT_FMP0);
-  	CanRxMsg rxMsg;
-  	CAN_Receive(CAN1, CAN_FIFO0, &rxMsg);
-	Rte_Write_CanRxMsg(rxMsg.Data);
+  	CAN_Receive(CAN1, CAN_FIFO0, &(canRx.canRxMsg));
+  	canRx.msgCounter++;
+  	Rte_Write_CanRxMsg(canRx, xHigherPriorityTaskWoken);
+  	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 	traceISR_EXIT();
 }
 #endif

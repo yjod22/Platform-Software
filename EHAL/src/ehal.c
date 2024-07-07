@@ -49,6 +49,7 @@ void EHAL_Main_OutputProcess(void)
 	EhalDio_CalcOutput();
 #if USART_USED
 	EhalUsart_SendTemperature();
+	EhalUsart_SendCan();
 #endif
 #if CAN_TX_USED
 	EhalCan_SendMessage();

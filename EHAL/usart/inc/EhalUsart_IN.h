@@ -27,16 +27,15 @@
 #define EHALUSART_IN_H_
 
 #include "EhalUsart_CFG.h"
-#include "stm32f4xx_usart.h"
 
 static inline void EhalUsart_IN_Temperature(float *data)
 {
 	Rte_Read_Temperature(data);
 }
 
-static inline bool EhalUsart_IN_FlagStatus_TxEmpty(void)
+static inline bool EhalUsart_IN_Can(Rte_CanRx_tst *data)
 {
-	return USART_GetFlagStatus(USART1, USART_FLAG_TXE);
+	return Rte_Read_CanRxMsg(data);
 }
 
 #endif /* EHALUSART_IN_H_ */

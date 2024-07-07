@@ -29,5 +29,6 @@
 
 extern void EhalUsart_Init(void);
 extern void EhalUsart_SendTemperature(void);
+extern void EhalUsart_SendCan(void);
 
 #endif /* EHALUSART_H_ */
