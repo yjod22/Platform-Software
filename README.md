@@ -1,7 +1,7 @@
 # Platform Software
-It provides a firmware foundation on which a different application runs. 
-- In the main branch: Temperature Indicator
-- In the can-analyzer branch: CAN Analyzer
+Depending on CAN_ANALYZER_MODE in system_macro, it provides a firmware foundation on which a different application runs. 
+- CAN_ANALYZER_MODE is FALSE: Temperature Indicator
+- CAN_ANALYZER_MODE is TRUE: CAN Analyzer
 
 ## Table of Contents
 [1. Temperature Indicator](#1-temperature-indicator)
