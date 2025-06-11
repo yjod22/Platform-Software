@@ -1,10 +1,3 @@
-/*
- * EhalExti_OUT.h
- *
- *  Created on: 2024. 4. 13.
- *      Author: yjod2
- */
-
 #ifndef EHALEXTI_OUT_H_
 #define EHALEXTI_OUT_H_
 
@@ -18,15 +11,15 @@ static inline void EhalExti_OUT_InitRcc()
 
 static inline void EhalExti_OUT_InitGpio()
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure;
 
-	GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_0;
-	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;
-	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_DOWN;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
 }
 
 static inline void EhalExti_OUT_InitExti()

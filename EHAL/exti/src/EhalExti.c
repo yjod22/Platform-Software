@@ -1,10 +1,3 @@
-/*
- * EhalExti.c
- *
- *  Created on: 2024. 3. 31.
- *      Author: yjod2
- */
-
 #include "EhalExti_CFG.h"
 #include "EhalExti_OUT.h"
 /*
@@ -37,10 +30,10 @@
 
 void EhalExti_Init(void)
 {
-	EhalExti_OUT_InitRcc();
-	EhalExti_OUT_InitGpio();
-	EhalExti_OUT_InitExti();
-	EhalExti_OUT_InitNvic();
+    EhalExti_OUT_InitRcc();
+    EhalExti_OUT_InitGpio();
+    EhalExti_OUT_InitExti();
+    EhalExti_OUT_InitNvic();
 }
 
 /*

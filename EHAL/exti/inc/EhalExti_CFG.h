@@ -1,10 +1,3 @@
-/*
- * EhalExti_CFG.h
- *
- *  Created on: 2024. 3. 31.
- *      Author: yjod2
- */
-
 #ifndef EHALEXTI_CFG_H_
 #define EHALEXTI_CFG_H_
 

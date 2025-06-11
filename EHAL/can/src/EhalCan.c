@@ -1,27 +1,3 @@
-/*
-*******************************************************************************
-*                                                                             *
-*							 Copyright (c)									  *
-*                         All rights reserved.                                *
-*                                                                             *
-*******************************************************************************
-*
-*  Filename:     EhalCan.c
-*
-*******************************************************************************                                                                            *
-*  Description:
-*
-*  (For a detailed description look at the object description in the UML model)
-*
-*******************************************************************************
-* History
-*******************************************************************************
-* Version:     2016b04
-* Author/Date: Junseok Oh / 2024-02-28
-* Change:      Enable Can driver
-*******************************************************************************
-*/
-
 #include "EhalCan_CFG.h"
 #include "EhalCan_IN.h"
 #include "EhalCan_OUT.h"
@@ -46,7 +22,6 @@
  * DECLARATION OF LOCAL FUNCTIONS
  * */
 
-
 /*
  * DEFINITION OF GLOBAL VARIABLES
  * */
@@ -57,17 +32,17 @@
 
 void EhalCan_Init(void)
 {
-	EhalCan_OUT_InitRcc();
-	EhalCan_OUT_InitGpio();
-	EhalCan_OUT_InitCan1();
-	EhalCan_OUT_InitNvic();
+    EhalCan_OUT_InitRcc();
+    EhalCan_OUT_InitGpio();
+    EhalCan_OUT_InitCan1();
+    EhalCan_OUT_InitNvic();
 }
 
 void EhalCan_SendMessage(void)
 {
-	CanTxMsg txMsg;
-	EhalCan_IN_TxMessage(&txMsg);
-	EhalCan_OUT_TxMessage(&txMsg);
+    CanTxMsg txMsg;
+    EhalCan_IN_TxMessage(&txMsg);
+    EhalCan_OUT_TxMessage(&txMsg);
 }
 
 /*

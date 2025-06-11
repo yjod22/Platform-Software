@@ -1,31 +1,7 @@
-/*
-*******************************************************************************
-*                                                                             *
-*							 Copyright (c)									  *
-*                         All rights reserved.                                *
-*                                                                             *
-*******************************************************************************
-*
-*  Filename:     Rte.c
-*
-*******************************************************************************                                                                            *
-*  Description:
-*
-*  (For a detailed description look at the object description in the UML model)
-*
-*******************************************************************************
-* History
-*******************************************************************************
-* Version:     2016b02
-* Author/Date: Junseok Oh / 2021-10-12
-* Change:      Apply AUTOSAR Architecture
-*******************************************************************************
-*/
-
-#include "std_type.h"
 #include "FreeRTOS.h"
-#include "queue.h"
 #include "Rte_EhalCan.h"
+#include "queue.h"
+#include "std_type.h"
 
 /*
  * DEFINITION OF LOCAL MACROS/DEFINES
@@ -67,18 +43,18 @@ QueueHandle_t Rte_CanQueue;
 
 void Rte_Init()
 {
-	Rte_Temperature = 0.0;
-	Rte_Battery = 0;
-	Rte_Switch = false;
-	Rte_PsplyMode = 0;
-	Rte_PsplyOut = false;
-	Rte_LedRed = false;
-	Rte_LedGreen = false;
-	for(int i=0; i<8; i++)
-	{
-		Rte_CanRxMsg[i] = 0;
-	}
-	Rte_CanQueue = xQueueCreate(QUEUE_LENGTH, QUEUE_ITEM_SIZE);
+    Rte_Temperature = 0.0;
+    Rte_Battery = 0;
+    Rte_Switch = false;
+    Rte_PsplyMode = 0;
+    Rte_PsplyOut = false;
+    Rte_LedRed = false;
+    Rte_LedGreen = false;
+    for (int i = 0; i < 8; i++)
+    {
+        Rte_CanRxMsg[i] = 0;
+    }
+    Rte_CanQueue = xQueueCreate(QUEUE_LENGTH, QUEUE_ITEM_SIZE);
 }
 
 /*
