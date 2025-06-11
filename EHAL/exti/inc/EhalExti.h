@@ -1,10 +1,3 @@
-/*
- * EhalExti.h
- *
- *  Created on: 2024. 3. 31.
- *      Author: yjod2
- */
-
 #ifndef EHALEXTI_H_
 #define EHALEXTI_H_
 
