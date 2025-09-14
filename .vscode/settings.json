@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "std_type.h": "c"
-    }
+        "std_type.h": "c",
+        "system_macro.h": "c"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.formatOnSave": true
+    },
+    "C_Cpp.intelliSenseEngine": "default"
 }
