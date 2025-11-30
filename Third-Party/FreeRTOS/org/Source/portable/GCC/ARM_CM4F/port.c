@@ -39,7 +39,6 @@ extern TaskHandle_t x50msTaskHandle;
 extern uint32_t ulCnt5msTask;
 extern uint32_t ulCnt50msTask;
 #endif
-extern volatile uint32_t TimmingDelay;
 
 #ifndef __VFP_FP__
 	#error This port can only be used when the project options are configured to enable hardware floating point support.
