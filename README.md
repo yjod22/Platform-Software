@@ -1,75 +1,183 @@
 # Platform Software
-Depending on CAN_ANALYZER_MODE in system_macro, it provides a firmware foundation on which a different application runs. 
-- CAN_ANALYZER_MODE is FALSE: Temperature Indicator
-- CAN_ANALYZER_MODE is TRUE: CAN Analyzer
 
-## Table of Contents
-[1. Temperature Indicator](#1-temperature-indicator)
+## Overview
 
-&nbsp;&nbsp;[1.1 Functionalities](#11-functionalities)
+It uses **separate Eclipse projects** for each application with shared code included directly:
 
-&nbsp;&nbsp;[1.2 HW Specification](#12-hw-specification)
+```
+Platform-Software/
+├── Config/                   (Shared configuration)
+├── MCAL/                     (Shared hardware abstraction layer)
+├── Third-Party/              (Shared third-party libraries)
+│
+├── Applications/
+│   ├── CanAnalyzer/          (Independent Eclipse project)
+│   │   ├── .project
+│   │   ├── .cproject
+│   │   ├── APPL/
+│   │   ├── EHAL/
+│   │   ├── RTE/
+│   │   ├── inc/
+│   │   ├── src/
+│   │   └── startup/
+│   │
+│   └── NewApp/               (Future application - same structure)
+│       ├── .project
+│       ├── .cproject
+│       ├── APPL/
+│       ├── EHAL/
+│       ├── RTE/
+│       ├── inc/
+│       ├── src/
+│       └── startup/
+```
 
-&nbsp;&nbsp;[1.3 SW Architecture](#13-sw-architecture)
+## Setup Instructions
 
-&nbsp;&nbsp;[1.4 SW Units](#14-sw-units)
+### Step 1: Import Projects into System Workbench for STM32
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.1 LED](#141-led)
+1. Open System Workbench for STM32
+2. **File** → **Import**
+3. Select **General** → **Existing Projects into Workspace**
+4. Browse to your `Platform-Software` folder
+5. Check **Search for nested projects**
+6. Select all discovered projects:
+   - `Platform-Software`
+   - `CanAnalyzer`
+7. Click **Finish**
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.2 PSPLY](#142-psply)
+### Step 2: Build CanAnalyzer
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.3 ADC](#143-adc)
+1. Right-click **CanAnalyzer** project
+2. **Build Project** (or press `Ctrl+B`)
+3. Binary output: `Applications/CanAnalyzer/Debug/CanAnalyzer.bin` or `Applications/CanAnalyzer/Release/CanAnalyzer.bin`
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.4 DIO](#144-dio)
+## Adding a New Application (e.g., NewApp)
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.5 I2C](#145-i2c)
+### Step 1: Create Folder Structure
 
-&nbsp;&nbsp;&nbsp;&nbsp;[1.4.6 USART](#146-usart)
+Create `Applications/NewApp/` with this structure:
 
-[2. CAN Analyzer](#2-can-analyzer)
+```
+Applications/NewApp/
+├── APPL/
+│   ├── appl.c
+│   └── appl.h
+│
+├── EHAL/
+│   ├── adc/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── can/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── dio/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── exti/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── i2c/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── usart/
+│   │   ├── inc/
+│   │   └── src/
+│   ├── ehal.c
+│   └── ehal.h
+│
+├── RTE/
+│   ├── inc/
+│   ├── Rte.c
+│   └── Rte.h
+│
+├── inc/
+│   └── (app-specific headers)
+│
+├── src/
+│   ├── main.c
+│   ├── syscalls.c
+│   └── system_stm32f4xx.c
+│
+└── startup/
+    └── startup_stm32.s
+```
 
-&nbsp;&nbsp;[2.1 Functionalities](#21-functionalities)
+### Step 2: Create .project File
 
-&nbsp;&nbsp;[2.2 HW Specification](#22-hw-specification)
+Copy `Applications/CanAnalyzer/.project` to `Applications/NewApp/.project` and update the name:
 
-&nbsp;&nbsp;[2.3 SW Architecture](#23-sw-architecture)
+```xml
+<name>NewApp</name>
+```
 
-&nbsp;&nbsp;[2.4 SW Units](#24-sw-units)
+### Step 3: Create .cproject File
 
-## 1. Temperature Indicator
+Copy `Applications/CanAnalyzer/.cproject` to `Applications/NewApp/.cproject` and replace all instances of:
+- `CanAnalyzer` → `NewApp` (in workspace paths)
+- Project ID references (unique IDs in cconfiguration)
 
-### 1.1 Functionalities
-The main functionality is to indicate the current temperature. When the below pre-conditions are met, the green LED will be on if the temperature is higher than 25 degree. The red LED will be on if the temperature is lower than 25 degree. 
-The current temperature value is sent over to the USART hardware. A PC can read it via a COM port using a USB-USART bridge. 
+Key sections to update:
 
-.Pre-condition 1: The MCU gets a stable voltage.
+```xml
+<!-- Old -->
+<builder buildPath="${workspace_loc:/CanAnalyzer}/Debug" ... />
 
-.Pre-condition 2: User pushes the external button connected to the MCU.
+<!-- New -->
+<builder buildPath="${workspace_loc:/NewApp}/Debug" ... />
+```
 
-### 1.2 HW Specification
-Microcontoller: STM32F4
+### Step 4: Import into System Workbench for STM32
 
-Temperature sensor: MPU-6050
+1. **File** → **Import**
+2. **General** → **Existing Projects into Workspace**
+3. Select `Applications/NewApp`
+4. Uncheck **Copy projects into workspace** (if it's already in your workspace)
+5. Click **Finish**
 
-### 1.3 SW Architecture
-![plot](./Architecture.jpg)
-FreeRTOS is used as Real-time OS and the basic AUTOSAR architecture is applied to decrease hardware dependencies. It consists of the three layers, Application software layer (APPL), Run-time environment (RTE), Basic software layer (BSW). RTE just serves as an interface between APPL and BSW. The architecture decouples APPL from the hardware so that reusability is ensured. Runnables are called by RTOS instead of RTE. 
+### Step 5: Build NewApp
 
-### 1.4 SW Units
-#### 1.4.1 LED
-It implements the main functionality. It checks if the two pre-conditions are fulfilled. It turns the green LED on and the red LED off if the temperature is higher than 25 degree. Otherwise, it turns the green LED off and the red LED on.
+1. Right-click **NewApp** project
+2. **Build Project**
+3. Binary output: `Applications/NewApp/Debug/NewApp.bin` or `Applications/NewApp/Release/NewApp.bin`
 
-#### 1.4.2 PSPLY
-It determines the status of power supply. If the MCU gets a stable voltage, the status will be set to Operation mode. Otherwise, it will be set to Non-operation mode.
+## Key Points
 
-#### 1.4.3 ADC
-It reads the voltage level of power by Analog-to-Digital Converter. Every 5ms the voltage is measured and recorded. Every 50ms recorded voltage values are evaluated to see if it is stable.  
+### Linked Resources
 
-#### 1.4.4 DIO
-It forms the interface towards the GPIO hardware by calling the driver APIs. 
+Shared code directories (Config, MCAL, and Third-Party) are configured as **linked resources** in each application project. This setup uses the `Platform_Software` path variable defined in the workspace, allowing:
 
-#### 1.4.5 I2C
-It represents abstraction of signals (Temperature, Accelerometer, Gyroscpoe) measured by the MPU-6050 sensor. It communicates with the sensor via I2C protocol by calling the driver APIs.
+- Centralized shared code without duplication
+- Easy updates to shared libraries across all applications
+- Path independence - changes to folder locations only require updating the `Platform_Software` variable
+- Cleaner project structure with symbolic links to shared resources
 
-#### 1.4.6 USART
-It sends a measured temperature value to the USART hardware every 50ms.
+The linked resources are configured in each `.cproject` file to reference:
+```
+${Platform_Software}/Config
+${Platform_Software}/MCAL
+${Platform_Software}/Third-Party
+```
+
+### Include Paths Resolution
+
+Each application project references shared code via these project-relative paths:
+
+```
+../../Config
+../../MCAL/...
+../../Third-Party/...
+```
+
+This allows:
+- Independent build configurations per application
+- Shared header files and libraries
+- Easy dependency management
+
+### Linker Script
+
+Application linker scripts are located in their respective directories:
+
+```
+Applications/<AppName>/LinkerScript.ld
+```
