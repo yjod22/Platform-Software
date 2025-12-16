@@ -34,10 +34,11 @@
 #include "task.h"
 
 #if configUSER_DEFINED_SYSTICK_HANDLER
-extern TaskHandle_t x5msTaskHandle;
-extern TaskHandle_t x50msTaskHandle;
-extern uint32_t ulCnt5msTask;
-extern uint32_t ulCnt50msTask;
+TaskHandle_t xInitTaskHandle = NULL;
+TaskHandle_t x5msTaskHandle = NULL;
+TaskHandle_t x50msTaskHandle = NULL;
+uint32_t ulCnt5msTask = configCOUNTER_5MS_TASK;
+uint32_t ulCnt50msTask = configCOUNTER_50MS_TASK;
 #endif
 
 #ifndef __VFP_FP__
@@ -509,44 +510,35 @@ void xPortSysTickHandler( void )
 		BaseType_t xRtosReadyElement;
 		xRtosReadyElement = xTaskIncrementTick();
 
-		// Decrement 5ms task counter
-		ulCnt5msTask--;
-
-		if (ulCnt5msTask == 0)
+		if (x5msTaskHandle != NULL)
 		{
-			// Restore 5ms task counter
-			ulCnt5msTask = configCOUNTER_5MS_TASK;
+			// Decrement 5ms task counter
+			ulCnt5msTask--;
 
-			// Activate (Resume) 5ms task
-			if(xTaskResumeFromISR(x5msTaskHandle))
+			if (ulCnt5msTask == 0)
 			{
-				x5msTaskReady = pdTRUE;
-			}
-			else
-			{
-				x5msTaskReady = pdFALSE;
+				// Restore 5ms task counter
+				ulCnt5msTask = configCOUNTER_5MS_TASK;
+
+				// Activate (Resume) 5ms task
+				x5msTaskReady = xTaskResumeFromISR(x5msTaskHandle);
 			}
 		}
 
-		// Decrement 50ms task counter
-		ulCnt50msTask--;
-
-		if (ulCnt50msTask == 0)
+		if (x50msTaskHandle != NULL)
 		{
-			// Restore 50ms task counter
-			ulCnt50msTask = configCOUNTER_50MS_TASK;
+			// Decrement 50ms task counter
+			ulCnt50msTask--;
 
-			// Activate (Resume) 50ms task
-			if(xTaskResumeFromISR(x50msTaskHandle))
+			if (ulCnt50msTask == 0)
 			{
-				x50msTaskReady = pdTRUE;
-			}
-			else
-			{
-				x50msTaskReady = pdFALSE;
+				// Restore 50ms task counter
+				ulCnt50msTask = configCOUNTER_50MS_TASK;
+
+				// Activate (Resume) 50ms task
+				x50msTaskReady = xTaskResumeFromISR(x50msTaskHandle);
 			}
 		}
-
 
 		if( xRtosReadyElement != pdFALSE
 			 || x5msTaskReady != pdFALSE || x50msTaskReady != pdFALSE )

@@ -19,7 +19,7 @@ BreakBeforeBraces: Allman
 PointerAlignment: Left
 
 SpaceBeforeAssignmentOperators: true
-SapeceBeforeParens: ControlStatements
+SpaceBeforeParens: ControlStatements
 SpaceAfterCStyleCast: false
 
 AlignAfterOpenBracket: AlwaysBreak

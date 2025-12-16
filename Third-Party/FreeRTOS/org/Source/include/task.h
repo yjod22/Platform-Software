@@ -69,6 +69,11 @@ extern "C" {
 struct tskTaskControlBlock; /* The old naming convention is used to prevent breaking kernel aware debuggers. */
 typedef struct tskTaskControlBlock* TaskHandle_t;
 
+/* Task handles */
+extern TaskHandle_t xInitTaskHandle;
+extern TaskHandle_t x5msTaskHandle;
+extern TaskHandle_t x50msTaskHandle;
+
 /*
  * Defines the prototype to which the application task hook function must
  * conform.
