@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Platform-Software</name>
+	<name>CanAnalyzer</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -25,4 +25,27 @@
 		<nature>fr.ac6.mcu.ide.core.MCUProjectNature</nature>
 		<nature>fr.ac6.mcu.ide.core.MCUSingleCoreProjectNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Config</name>
+			<type>2</type>
+			<locationURI>Platform_Software/Config</locationURI>
+		</link>
+		<link>
+			<name>MCAL</name>
+			<type>2</type>
+			<locationURI>Platform_Software/MCAL</locationURI>
+		</link>
+		<link>
+			<name>Third-Party</name>
+			<type>2</type>
+			<locationURI>Platform_Software/Third-Party</locationURI>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>Platform_Software</name>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D</value>
+		</variable>
+	</variableList>
 </projectDescription>
