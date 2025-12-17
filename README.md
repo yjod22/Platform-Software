@@ -14,17 +14,15 @@ Platform-Software/
 │   ├── CanAnalyzer/          (Independent Eclipse project)
 │   │   ├── .project
 │   │   ├── .cproject
-│   │   ├── APPL/
 │   │   ├── EHAL/
 │   │   ├── RTE/
 │   │   ├── inc/
 │   │   ├── src/
 │   │   └── startup/
 │   │
-│   └── NewApp/               (Future application - same structure)
+│   └── Thermometer/          (Independent Eclipse project)
 │       ├── .project
 │       ├── .cproject
-│       ├── APPL/
 │       ├── EHAL/
 │       ├── RTE/
 │       ├── inc/
@@ -44,6 +42,7 @@ Platform-Software/
 6. Select all discovered projects:
    - `Platform-Software`
    - `CanAnalyzer`
+   - `Thermometer`
 7. Click **Finish**
 
 ### Step 2: Build CanAnalyzer
@@ -52,6 +51,12 @@ Platform-Software/
 2. **Build Project** (or press `Ctrl+B`)
 3. Binary output: `Applications/CanAnalyzer/Debug/CanAnalyzer.bin` or `Applications/CanAnalyzer/Release/CanAnalyzer.bin`
 
+### Step 3: Build Thermometer
+
+1. Right-click **Thermometer** project
+2. **Build Project** (or press `Ctrl+B`)
+3. Binary output: `Applications/Thermometer/Debug/Thermometer.bin` or `Applications/Thermometer/Release/Thermometer.bin`
+
 ## Adding a New Application (e.g., NewApp)
 
 ### Step 1: Create Folder Structure
@@ -59,11 +64,7 @@ Platform-Software/
 Create `Applications/NewApp/` with this structure:
 
 ```
-Applications/NewApp/
-├── APPL/
-│   ├── appl.c
-│   └── appl.h
-│
+Applications/NewApp/│
 ├── EHAL/
 │   ├── adc/
 │   │   ├── inc/

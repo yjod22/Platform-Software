@@ -1,0 +1,6 @@
+#ifndef SYSTEM_MACRO_H
+#define SYSTEM_MACRO_H
+
+#define USE_SEMIHOSTING_ENABLED FALSE
+
+#endif
