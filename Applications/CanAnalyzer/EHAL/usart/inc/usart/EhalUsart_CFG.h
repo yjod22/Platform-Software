@@ -6,7 +6,6 @@
 #include "stm32f4xx_usart.h"
 
 #include <CanAnalyzer/std_type.h>
-#include <rte/Rte_ApplLed.h>
 #include <rte/Rte_EhalCan.h>
 
 #endif /* EHALDIO_CFG_H_ */
