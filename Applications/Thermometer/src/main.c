@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <CanAnalyzer/std_type.h>
-#include <CanAnalyzer/system_macro.h>
 #include <EHAL/ehal.h>
 #include <RTE/Rte.h>
 #include <rte/Rte_EhalI2c.h>
+#include <Thermometer/std_type.h>
+#include <Thermometer/system_macro.h>
 
 #include "FreeRTOS.h"
 #include "stm32f4xx.h"

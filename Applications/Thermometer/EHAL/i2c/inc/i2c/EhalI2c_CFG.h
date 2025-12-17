@@ -1,9 +1,9 @@
 #ifndef EHALI2C_CFG_H_
 #define EHALI2C_CFG_H_
 
-#include <CanAnalyzer/std_type.h>
 #include <Driver/DriverI2c.h>
 #include <RTE/Rte_EhalI2c.h>
+#include <Thermometer/std_type.h>
 
 /*
  * DEFINITION OF GLOBAL MACROS/DEFINES

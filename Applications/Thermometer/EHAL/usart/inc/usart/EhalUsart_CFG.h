@@ -5,7 +5,7 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
 
-#include <CanAnalyzer/std_type.h>
 #include <rte/Rte_EhalI2c.h>
+#include <Thermometer/std_type.h>
 
 #endif /* EHALDIO_CFG_H_ */

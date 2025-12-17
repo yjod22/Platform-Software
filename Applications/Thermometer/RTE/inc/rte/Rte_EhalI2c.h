@@ -1,7 +1,7 @@
 #ifndef RTE_EHALI2C_H_
 #define RTE_EHALI2C_H_
 
-#include <CanAnalyzer/std_type.h>
+#include <Thermometer/std_type.h>
 
 extern float Rte_Temperature;
 

@@ -1,5 +1,4 @@
-#include <CanAnalyzer/system_macro.h>
-
+#include <Thermometer/system_macro.h>
 #include "ehal.h"
 #include "stm32f4xx.h"
 
